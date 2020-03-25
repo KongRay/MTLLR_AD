@@ -1,3 +1,8 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+X = pd.read_excel()
+y = pd.read_excel()
 def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, max_iter = 100, min_gap = 0.001, normalize = False, tempotal_smooth = True):
     loss_train_record = []
     loss_dev_record = []
