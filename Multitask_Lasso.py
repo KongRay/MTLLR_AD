@@ -34,9 +34,10 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, max_iter = 100, min_gap = 0.00
         loss_dev_record.append(loss_dev)
         if iter != 0:
             if (loss_dev_record[iter] - loss_dev_record[iter - 1]) < min_gap:
-        print(iter, loss_train, loss_dev)
+                break
     #Train the Lasso Regression
-    return weights
+    return weights, X_test, y_test
 
+weights, X_test, y_test = multitask_lasso(X, y, lr = 0.1, alpha = 0.01, max_iter = 100, min_gap = 0.001, normalize = False, tempotal_smooth = True)
 prediction = np.dot(X_test, weights.T)
 #Need to add evaluation methods
