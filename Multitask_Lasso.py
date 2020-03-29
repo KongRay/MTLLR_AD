@@ -13,9 +13,9 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
     loss_train_record = []
     loss_dev_record = []
     weights = np.zeros((X.shape[1], y.shape[1]))
-    H = np.zeros((y_train.shape[1], y_train.shape[1]-1))
-    for i in range(y_train.shape[1]):
-        for j in range(y_train.shape[1]-1):
+    H = np.zeros((y.shape[1], y.shape[1]-1))
+    for i in range(y.shape[1]):
+        for j in range(y.shape[1]-1):
             if i == j:
                 H[i,j] = 1
             elif i == j + 1:
