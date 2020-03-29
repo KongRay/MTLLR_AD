@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-X = pd.read_excel()
-y = pd.read_excel()
+X = pd.read_csv()
+y = pd.read_csv()
 X = np.array(X)
 y = np.array(y)
 def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100, min_gap = 0.001, tempotal_smooth = True):
