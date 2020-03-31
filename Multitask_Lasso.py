@@ -24,12 +24,12 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
 
     for iter in range(max_iter):
         if tempotal_smooth == True:
-            weights = weights - lr * (np.dot(np.dot(X_train.T, X_train), weights)-X_train.T + alpha * weights + alpha_t * np.dot(np.dot(weights,H),H.T))
+            weights = weights - lr * (np.dot(np.dot(X_train.T, X_train), weights)-np.dot(X_train.T, y_train) + alpha * weights + alpha_t * np.dot(np.dot(weights,H),H.T))
             loss_train = np.linalg.norm(np.dot(X_train, weights)-y_train)**2 + alpha * np.linalg.norm(weights)**2 + alpha_t * np.linalg.norm(np.dot(weights,H))**2
             loss_dev = np.linalg.norm(np.dot(X_dev, weights)-y_dev)**2 + alpha * np.linalg.norm(weights)**2
-            #Need to add Temporal Smoothness Prior
+            #Add Temporal Smoothness Prior
         else:
-            weights = weights - lr * (-np.dot(X_train.T, y_train) + np.dot(np.dot(X_train.T, X_train),weights) + alpha * weights)
+            weights = weights - lr * (np.dot(np.dot(X_train.T, X_train),weights)-np.dot(X_train.T, y_train) + alpha * weights)
             loss_train = np.linalg.norm(np.dot(X_train, weights)-y_train)**2 + alpha * np.linalg.norm(weights)**2
             loss_dev = np.linalg.norm(np.dot(X_dev, weights)-y_dev)**2 + alpha * np.linalg.norm(weights)**2
             #Realize min ||XW−Y||^2 + θ1||W||^2
