@@ -35,16 +35,21 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
             loss_train = np.linalg.norm(np.dot(X_train, weights)-y_train)**2 + alpha * np.linalg.norm(weights)**2 + alpha_t * np.linalg.norm(np.dot(weights,H))**2
             loss_dev = np.linalg.norm(np.dot(X_dev, weights)-y_dev)**2 + alpha * np.linalg.norm(weights)**2
             #Only add Temporal Smoothness Prior
+            #minW ||XW−Y||F^2 + θ1||W||F^2 + θ2||WH||F^2
+            #∂J(W)/∂W = X.T * X * W -X.T * y + θ1 * W + θ2 * W * H * H.T
         elif tempotal_smooth == True & incomplete_data == True:
             weights = weights - lr * (S*(np.dot(np.dot(X_train.T, X_train), weights)-np.dot(X_train.T, y_train)) + alpha * weights + alpha_t * np.dot(np.dot(weights,H),H.T))
             loss_train = np.linalg.norm(S*(np.dot(X_train, weights)-y_train))**2 + alpha * np.linalg.norm(weights)**2 + alpha_t * np.linalg.norm(np.dot(weights,H))**2
             loss_dev = np.linalg.norm(S*(np.dot(X_dev, weights)-y_dev))**2 + alpha * np.linalg.norm(weights)**2
             #Add both TSP and Incomplete Data
+            #minW ||S⊙(XW−Y)||F^2 + θ1||W||F^2 + θ2||WH||F^2
+            #∂J(W)/∂W = S * (X.T * X * W -X.T * y) + θ1 * W + θ2 * W * H * H.T
         else:
             weights = weights - lr * (np.dot(np.dot(X_train.T, X_train),weights)-np.dot(X_train.T, y_train) + alpha * weights)
             loss_train = np.linalg.norm(np.dot(X_train, weights)-y_train)**2 + alpha * np.linalg.norm(weights)**2
             loss_dev = np.linalg.norm(np.dot(X_dev, weights)-y_dev)**2 + alpha * np.linalg.norm(weights)**2
-            #Realize min ||XW−Y||F^2 + θ1||W||F^2
+            #Realize minW ||XW−Y||F^2 + θ1||W||F^2
+            #∂J(W)/∂W = X.T * X * W -X.T * y + θ1 * W
         loss_train_record.append(loss_train)
         loss_dev_record.append(loss_dev)
         #Collect loss for each iteration
