@@ -3,8 +3,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 X = pd.read_csv()
 y = pd.read_csv()
-X = np.array(X)
-y = np.array(y)
+X = np.array(X)#(n_samples, n_features)
+y = np.array(y)#(n_samples, n_tasks)
 def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100, min_gap = 0.001, tempotal_smooth = False, incomplete_data = False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.3)
