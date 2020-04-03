@@ -60,5 +60,5 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
     return weights, X_test, y_test
 
 weights, X_test, y_test = multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100, min_gap = 0.001, tempotal_smooth = True)
-prediction = np.dot(X_test, weights.T)
+prediction = np.dot(X_test, weights)
 #Need to add evaluation methods
