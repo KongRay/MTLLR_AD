@@ -10,6 +10,7 @@ y = np.array(y)#(n_samples, n_tasks)
 def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100, min_gap = 0.001, tempotal_smooth = False, incomplete_data = False):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
     X_train, X_dev, y_train, y_dev = train_test_split(X_train, y_train, test_size = 0.3)
+    print('finish split')
     # Randomly split the dataset
 
     loss_train_record = []
@@ -23,15 +24,18 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
                 H[i,j] = 1
             elif i == j + 1:
                 H[i,j] = -1
+    print('finish H')
     #Set H matrix for TSP
     S = np.zeros((y_train.shape[0], y_train.shape[1]))
     for i in range(y_train.shape[0]):
         for j in range(y_train.shape[1]):
             if math.isnan(y[i,j]) == False:#if the data exists
                 S[i,j] = 1
+    print('finish S')
     #Set S for dealing with incomplete data
 
     for iter in range(max_iter):
+        print(iter)
         if tempotal_smooth == True & incomplete_data == False:
             weights = weights - lr * (np.dot(np.dot(X_train.T, X_train), weights)-np.dot(X_train.T, y_train) + alpha * weights + alpha_t * np.dot(np.dot(weights,H),H.T))
             loss_train = np.linalg.norm(np.dot(X_train, weights)-y_train)**2 + alpha * np.linalg.norm(weights)**2 + alpha_t * np.linalg.norm(np.dot(weights,H))**2
