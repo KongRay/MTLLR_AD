@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import math
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 X = pd.read_csv('MRI-preprocess.csv')
 y = pd.read_csv('CSF_task_mode.csv')
 X = (X - X.mean())/X.std()
@@ -96,3 +97,12 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
 weights, X_test, y_test, trl, devl = multitask_lasso(X, y, lr = 0.001, alpha = 0.01, alpha_t = 0.01, max_iter = 100, min_gap = 0.001, temporal_smooth = False, analytic_expression = False)
 #prediction = np.dot(X_test, weights)
 #Need to add evaluation methods
+mean_squared_error(y_true, y_pred, squared=False) #rmse
+def nrmse(actual: np.ndarray, predicted: np.ndarray): 
+    """ Normalized Root Mean Squared Error """
+    return rmse(actual, predicted) / (actual.max() - actual.min())
+#for nrms i have wriiten a function you ust have to change  the labels with the labels we want
+
+
+
+
