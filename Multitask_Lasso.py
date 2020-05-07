@@ -97,12 +97,31 @@ def multitask_lasso(X, y, lr = 0.1, alpha = 0.01, alpha_t = 0.01, max_iter = 100
 weights, X_test, y_test, trl, devl = multitask_lasso(X, y, lr = 0.001, alpha = 0.01, alpha_t = 0.01, max_iter = 100, min_gap = 0.001, temporal_smooth = False, analytic_expression = False)
 #prediction = np.dot(X_test, weights)
 #Need to add evaluation methods
-mean_squared_error(y_true, y_pred, squared=False) #rmse
-def nrmse(actual: np.ndarray, predicted: np.ndarray): 
-    """ Normalized Root Mean Squared Error """
-    return rmse(actual, predicted) / (actual.max() - actual.min())
+#mean_squared_error(y_true, y_pred, squared=False) #rmse
+#def nrmse(actual: np.ndarray, predicted: np.ndarray): 
+#    """ Normalized Root Mean Squared Error """
+ #   return rmse(actual, predicted) / (actual.max() - actual.min())
 #for nrms i have wriiten a function you ust have to change  the labels with the labels we want
 
+prediction = np.dot(X_test, weights)
+#Need to add evaluation methods
+y_test=incomplete_data(y_test)
 
+mse=mean_squared_error(y_test, prediction, squared=True)#mse
+print("mse:",mse)
+up=0
+for i in range(y_test.shape[1]):
+    mse1=mean_squared_error(y_test[:,i], prediction[:,i], squared=True)
+    n_mse=mse1*y_test.shape[0]
+    up=up+n_mse/np.var(y_test[:,i])
+nmse=up/(y_test.shape[0]*y_test.shape[1])#nmse
+print('nmse:',nmse)
+rmse=mean_squared_error(y_test, prediction, squared=False)
+print('rmse:',rmse)
+def nrmse(actual, predicted): 
+    """ Normalized Root Mean Squared Error """
+    mse=mean_squared_error(actual, predicted, squared=False) #rmse
+    return math.sqrt(mse)/ (actual.max() - actual.min())
+nmse= nrmse(y_test,prediction)
 
 
