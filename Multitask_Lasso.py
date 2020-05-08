@@ -103,6 +103,15 @@ def nrmse(actual: np.ndarray, predicted: np.ndarray):
     return rmse(actual, predicted) / (actual.max() - actual.min())
 #for nrms i have wriiten a function you ust have to change  the labels with the labels we want
 
+###wR####
+##here i havent replace x,w with y_pred just to undersatnd hoe the wR works
+def cov(x, y, w):
+    """Weighted Covariance"""
+    return np.sum(w * (x - np.average(x, weights=w)) * (y -np.average(x, weights=w))) / np.sum(w)
+
+def corr(x, y, w):
+    """Weighted Correlation"""
+    return cov(x, y, w) / np.sqrt(cov(x, x, w) * cov(y, y, w))
 
 
 
